@@ -1,0 +1,17 @@
+groups:
+- name: alert.rules
+  rules:
+  - alert: cpuUsge
+    expr: 100-(avg by(instance)(irate(node_cpu_seconds_total{job='node_exporter',mode= "idle"}[5m]))*100) > 95
+    for: 1m
+    labels:
+      severity: Critical
+    annotations:
+      summary: Machine under helavy load
+  - alert: TestAlert
+    expr: aws_health{service="AWS Support Center"} < 2
+    for: 1m
+    labels:
+      severity: Serious
+    annotations:
+      summary: This is a test alert, that was  created order to test the alertmanager component and ElasticEmail SMTP API
