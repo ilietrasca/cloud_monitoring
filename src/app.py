@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# CloudMonitoring
+# Cloud Monitoring
 # Author: Laurentiu Trasca
 
 try:
