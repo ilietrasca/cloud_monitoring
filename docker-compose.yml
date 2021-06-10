@@ -46,7 +46,7 @@ services:
     ports:
      - 8001:8001
     volumes:
-     - ./app.py:/app.py:rw
+     - ./src/app.py:/app.py:rw
   alertmanager:
     image: laurentiutra/last-alertmanager:0.1
     container_name: alertmanager

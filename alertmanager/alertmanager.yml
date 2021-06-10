@@ -104,7 +104,7 @@ inhibit_rules:
 receivers:
 - name: 'team-X-mails'
   email_configs:
-  - to: 'ilie.trasca@outlook.com"
+  - to: 'ilie.trasca@outlook.com'
     headers:
       subject: "[Alert][MD][Disertatie] Sistem Alert"
 

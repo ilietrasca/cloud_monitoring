@@ -87,7 +87,8 @@ Resources:
           chmod +x /home/ubuntu/cloud_monitoring/scripts/install-docker.sh
           sudo bash -x /home/ubuntu/cloud_monitoring/scripts/install-docker.sh >> start-up.log 2>&1
           # Start project
-          sudo docker-compose -f /home/ubuntu/cloud_monitoring/docker-compose.yml up -d 
+          cd /home/ubuntu/cloud_monitoring
+          sudo docker-compose up -d 
           # Install grafana worldmap panel
           sleep 10
           sudo docker exec -i grafana  bash -c "grafana-cli plugins install grafana-worldmap-panel"
