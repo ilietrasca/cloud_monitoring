@@ -36,7 +36,7 @@ services:
     volumes:
       - ./grafana/provisioning/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:rw
       - ./grafana/provisioning/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:rw
-      - ./grafana/dashboards/coronastats.json:/var/lib/grafana/coronastats.json:rw
+      - ./grafana/dashboards/cloudmonitoring.json:/var/lib/grafana/cloudmonitoring.json:rw
   app:
     image: laurentiutra/cloudmonitoring:0.1
     container_name: app
