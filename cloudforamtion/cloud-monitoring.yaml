@@ -91,7 +91,7 @@ Resources:
           sudo docker-compose up -d 
           # Install grafana worldmap panel
           sleep 10
-          sudo docker exec -i grafana  bash -c "grafana-cli plugins install grafana-worldmap-panel"
+          sudo docker exec -i grafana bash -c "grafana-cli plugins install grafana-worldmap-panel"
           # Restart grafana
           sudo docker restart grafana
           echo "Done"
