@@ -39,7 +39,7 @@ services:
       - ./grafana/dashboards/coronastats.json:/var/lib/grafana/coronastats.json:rw
   app:
     image: laurentiutra/cloudmonitoring:0.1
-    container_name: cloudmonitoring
+    container_name: app
     restart: always
     environment:
      - "URL=https://status.aws.amazon.com/"

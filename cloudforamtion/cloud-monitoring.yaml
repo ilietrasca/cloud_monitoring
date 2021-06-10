@@ -1,0 +1,130 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Application Template use to provision an EC2 instance in a VPC Subnet provisioned in a different stack.
+
+######################
+# Parameters section
+######################
+
+Parameters:
+
+  UbuntuAMIID:
+    Type: AWS::EC2::Image::Id
+    Default: ami-0a8e758f5e873d1c1
+
+  VPCID:
+    Type: AWS::EC2::VPC::Id
+    Default: vpc-43c0c425
+
+  SubnetID:
+    Type: AWS::EC2::Subnet::Id
+    Default: subnet-7e176618
+
+######################
+# Resources section
+######################
+
+Resources:
+
+  CloudMonitoringInstance:
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
+    Type: AWS::EC2::Instance
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          All:
+            - ConfigureSampleApp
+        ConfigureSampleApp:
+          packages:
+            apt:
+              httpd: []
+          files:
+            /var/www/html/index.html:
+              content: |
+                <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation_graphic.png" alt="AWS CloudFormation Logo"/>
+                <h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>
+              mode: 000644
+              owner: apache
+              group: apache
+          services:
+            sysvinit:
+              httpd:
+                enabled: true
+                ensureRunning: true
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !Ref UbuntuAMIID
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref SecurityGroup
+          AssociatePublicIpAddress: true
+          DeviceIndex: "0"
+          DeleteOnTermination: true
+          SubnetId: !Ref SubnetID
+      Tags:
+        - Key: Name
+          Value: Cloud Monitoring Web Server
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          sudo apt-get update
+          sudo apt-get install python-setuptools -y
+          sudo apt-get install python3-pip python-dev build-essential -y
+          mkdir -p /opt/aws/bin
+          wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz
+          pip3 install aws-cfn-bootstrap-py3-latest.tar.gz
+          # Install the files and packages from the metadata
+          cfn-init -v --stack ${AWS::StackName} --resource CloudMonitoringInstance --configsets All --region ${AWS::Region}
+          # Prepare directory structure
+          cd /home/ubuntu/
+          mkdir -p /home/ubuntu/prometheus
+          chmod 777 /home/ubuntu/prometheus
+          # Clone repo
+          git clone https://github.com/ilietrasca/cloud_monitoring.git >> start-up.log 2>&1
+          # Install docker and docker-compose
+          chmod +x /home/ubuntu/cloud_monitoring/scripts/install-docker.sh
+          sudo bash -x /home/ubuntu/cloud_monitoring/scripts/install-docker.sh >> start-up.log 2>&1
+          # Start project
+          sudo docker-compose -f /home/ubuntu/cloud_monitoring/docker-compose.yml up -d 
+          # Install grafana worldmap panel
+          sleep 10
+          sudo docker exec -i grafana  bash -c "grafana-cli plugins install grafana-worldmap-panel"
+          # Restart grafana
+          sudo docker restart grafana
+          echo "Done"
+          # Signal the status from cfn-init
+          cfn-signal -e $? --stack ${AWS::StackName} --resource CloudMonitoringInstance --region ${AWS::Region}
+
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP ingress
+      VpcId: !Ref VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: Cloud Monitoring SG
+
+######################
+# Outputs section
+######################
+
+Outputs:
+  URL:
+    Description: URL of Grafana Dashboard
+    Value: !Sub 'http://${CloudMonitoringInstance.PublicDnsName}:3000/'
