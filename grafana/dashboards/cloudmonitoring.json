@@ -70,9 +70,129 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1623348000352,
+  "iteration": 1623430725406,
   "links": [],
   "panels": [
+    {
+      "datasource": "${DS_PROMETHEUS-TEST}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 25,
+      "title": "Service Status $region",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "$Prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "id": 27,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": "service",
+      "repeatDirection": "h",
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum({job=\"app\",country=~\"$region\",category=~\"$category\",service=~\"$service\"})",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "0.99,0.9999",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$service",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "OK",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "DOWN",
+          "value": "0"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS-TEST}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 23,
+      "title": "High Overview",
+      "type": "row"
+    },
     {
       "cacheTimeout": null,
       "colorBackground": true,
@@ -93,9 +213,9 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 6,
+        "w": 8,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 13,
       "interval": null,
@@ -176,9 +296,9 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 6,
-        "x": 6,
-        "y": 0
+        "w": 8,
+        "x": 8,
+        "y": 8
       },
       "id": 16,
       "interval": null,
@@ -259,9 +379,9 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 6,
-        "x": 12,
-        "y": 0
+        "w": 8,
+        "x": 16,
+        "y": 8
       },
       "id": 21,
       "interval": null,
@@ -283,7 +403,7 @@
       "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
-      "prefix": "Servicies:",
+      "prefix": "Category Servicies:",
       "prefixFontSize": "80%",
       "rangeMaps": [
         {
@@ -303,97 +423,14 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count({job=\"app\",country=~\"$region\"})",
+          "expr": "count({job=\"app\",country=~\"$region\",category=~\"$category\"})",
           "refId": "A"
         }
       ],
       "thresholds": "99",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Number of Servicies $region",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#d44a3a",
-        "#FF9830",
-        "#299c46"
-      ],
-      "datasource": "$Prometheus",
-      "format": "percentunit",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
-      "id": 17,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "SLA",
-      "prefixFontSize": "80%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "expr": "count({job=\"app\",country=~\"$region\"})/sum({job=\"app\",country=~\"$region\"})",
-          "refId": "A"
-        }
-      ],
-      "thresholds": "0.99,0.9999",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Cloud SLA $region",
+      "title": " Servicies $region $category",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -411,7 +448,7 @@
         "h": 18,
         "w": 5,
         "x": 0,
-        "y": 5
+        "y": 13
       },
       "id": 6,
       "options": {
@@ -470,7 +507,7 @@
         "h": 18,
         "w": 13,
         "x": 5,
-        "y": 5
+        "y": 13
       },
       "hideEmpty": false,
       "hideZero": false,
@@ -518,7 +555,7 @@
         "h": 18,
         "w": 6,
         "x": 18,
-        "y": 5
+        "y": 13
       },
       "id": 20,
       "options": {},
@@ -605,25 +642,27 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS-TEST}",
+      "datasource": "$Prometheus",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 31
       },
       "hiddenSeries": false,
       "id": 4,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
-        "current": false,
+        "current": true,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -639,11 +678,18 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
+      "targets": [
+        {
+          "expr": " sum({job=\"app\",country=~\"$region\", service=~\"$service\"}) by (service,country)",
+          "legendFormat": "{{country}}: {{service}} ",
+          "refId": "A"
+        }
+      ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Status $region $category $service",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -756,7 +802,7 @@
         "hide": 0,
         "includeAll": true,
         "label": "Service",
-        "multi": false,
+        "multi": true,
         "name": "service",
         "options": [],
         "query": "label_values({job=\"app\", country=~\"$region\",  category=~\"$category\"},service)",
@@ -773,7 +819,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -791,7 +837,7 @@
     ]
   },
   "timezone": "",
-  "title": "Cloud SLA Monitoring",
-  "uid": "kEoWS3eMz",
-  "version": 29
+  "title": "Cloud SLA Monitoring V0.1",
+  "uid": "kEoWS3eMzasd",
+  "version": 5
 }
