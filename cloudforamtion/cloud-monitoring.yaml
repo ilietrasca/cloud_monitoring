@@ -20,6 +20,10 @@ Parameters:
     Type: AWS::EC2::Subnet::Id
     Default: subnet-7e176618
 
+  SSHKey:
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: ltrasca
+
 ######################
 # Resources section
 ######################
@@ -39,23 +43,24 @@ Resources:
         ConfigureSampleApp:
           packages:
             apt:
-              httpd: []
+              apache2: []
           files:
             /var/www/html/index.html:
               content: |
                 <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation_graphic.png" alt="AWS CloudFormation Logo"/>
                 <h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>
               mode: 000644
-              owner: apache
-              group: apache
+              owner: www-data
+              group: www-data
           services:
             sysvinit:
-              httpd:
+              apache2:
                 enabled: true
                 ensureRunning: true
     Properties:
       InstanceType: t2.micro
       ImageId: !Ref UbuntuAMIID
+      KeyName: !Ref SSHKey
       NetworkInterfaces:
         - GroupSet:
             - !Ref SecurityGroup
@@ -76,7 +81,7 @@ Resources:
           wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz
           pip3 install aws-cfn-bootstrap-py3-latest.tar.gz
           # Install the files and packages from the metadata
-          cfn-init -v --stack ${AWS::StackName} --resource CloudMonitoringInstance --configsets All --region ${AWS::Region}
+          cfn-init -v --stack ${AWS::StackName} --resource CloudMonitoringInstance --configsets All --region ${AWS::Region} >> start-up.log 2>&1
           # Prepare directory structure
           cd /home/ubuntu/
           mkdir -p /home/ubuntu/prometheus
