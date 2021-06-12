@@ -1,6 +1,6 @@
 # Cloud Monitoring Project
 
-## Personal project, monitor SLA breach in cloud.
+Personal project, monitor SLA breach in cloud.
 
 ## Architecture overview from AWS
 ![](https://github.com/ilietrasca/cloud_monitoring/blob/master/docs/CloudMonitoring.png)
