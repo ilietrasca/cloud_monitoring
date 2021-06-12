@@ -15,3 +15,10 @@ groups:
       severity: Critical
     annotations:
       summary: This is a test alert, that was  created order to test the alertmanager component and ElasticEmail SMTP API
+  - alert: AwsSupportDown
+    expr: aws_health{service="AWS Support Center"} < 2
+    for: 1m
+    labels:
+      severity: Critical
+    annotations:
+      summary: This is a test alert, that was  created order to test the alertmanager component and ElasticEmail SMTP API

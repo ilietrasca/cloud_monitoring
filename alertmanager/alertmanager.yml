@@ -3,9 +3,9 @@ global:
 #  smtp_smarthost: 'localhost:25'
 #  smtp_from: 'alertmanager@example.org'
   smtp_smarthost: 'smtp.elasticemail.com:2525'
-  smtp_from: 'ilie.trasca@outlook.com'
-  smtp_auth_username: 'ilie.trasca@outlook.com'
-  smtp_auth_password: '33d2e9b5-ac8d-44b2-bc2a-7fa104391701'
+  smtp_from: 'ilie.trasca.1996@gmail.com'
+  smtp_auth_username: 'ilie.trasca.1996@gmail.com'
+  smtp_auth_password: '2A12B3216E44505074AF08044F49CE985BC4'
 #  smtp_require_tls: false
 
 # The root route on which each incoming alert enters.
