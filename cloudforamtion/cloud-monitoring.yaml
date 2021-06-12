@@ -133,4 +133,4 @@ Resources:
 Outputs:
   URL:
     Description: URL of Grafana Dashboard
-    Value: !Sub 'http://${CloudMonitoringInstance.PublicDnsName}:3000/'
+    Value: !Sub 'http://${CloudMonitoringInstance.PublicDnsName}:3000/d/kEoWS3eMzasd/cloud-sla-monitoring-v0-1?orgId=1&var-Prometheus=Prometheus-Test&var-region=Ireland&var-category=Database&var-service=Amazon%20Athena%20&var-service=Amazon%20DynamoDB%20&var-service=Amazon%20Relational%20Database%20Service%20'
