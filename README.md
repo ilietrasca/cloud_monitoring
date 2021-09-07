@@ -3,7 +3,7 @@
 Personal project, monitor SLA breach in cloud.
 
 ## Architecture overview from AWS
-![](https://github.com/ilietrasca/cloud_monitoring/blob/master/docs/CloudMonitoring.png)
+![](/docs/CloudMonitoring.png)
 
 ### Install dependencies to test on local
 1. In the working directory run below commands to install the dependencies:
